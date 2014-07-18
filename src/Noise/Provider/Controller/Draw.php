@@ -77,7 +77,7 @@ class Draw implements ControllerProviderInterface {
 					'y' => $y,
 					'text' => $link['name'],
 					'font-size' => 12,
-					'href' => $app['url_generator']->generate('machines.detail', array('machineId' => $machine['id']))
+					'href' => $app['url_generator']->generate('machines.detail', array('machineId' => $link['source']))
 				);
 			$json[] = $machineName;
 			$lineCX = 250 + 50 * cos($rad);
@@ -128,7 +128,7 @@ class Draw implements ControllerProviderInterface {
 					'y' => $y,
 					'text' => $link['name'],
 					'font-size' => 12,
-					'href' => $app['url_generator']->generate('machines.detail', array('machineId' => $machine['id']))
+					'href' => $app['url_generator']->generate('machines.detail', array('machineId' => $link['destination']))
 				);
 			$json[] = $machineName;
 			$lineCX = 250 + 50 * cos($rad);

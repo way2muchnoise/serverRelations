@@ -26,6 +26,12 @@ class Links implements ControllerProviderInterface {
 			->method('POST')
 			->bind('links.delete');
 
+		$controllers
+			->match('/{id}/', array($this, 'detail'))
+			->assert('id', '\d+')
+			->method('GET|POST')
+			->bind('links.edit');
+
 		return $controllers;
 
 	}
@@ -66,6 +72,9 @@ class Links implements ControllerProviderInterface {
 						'label' => 'The link reason',
 						'constraints' => array(new Assert\NotBlank()),
 						))
+					->add('nota', 'textarea', array(
+						'label' => 'Nota'
+						))
 					->add('origin', 'hidden', array(
 					));
 
@@ -87,6 +96,65 @@ class Links implements ControllerProviderInterface {
 		return $app['twig']->render('links.twig', array(
 			'form' => $form->createView(),
 			'feedback' => $app['request']->get('feedback'),
+			'state' => 'Add'
+		));
+	}
+
+	public function detail(Application $app, $id) {
+
+		$link = $app['db.links']->findById($id);
+		$origin = $app['request']->get('origin');
+
+		$raw = $app['db.machines']->findAll();
+			$machines = array();
+			foreach ($raw as $r) {
+				$machines[$r['id']] = $r['name'];
+			}
+
+		$form = $app['form.factory']
+					->createNamed('form', 'form', array_merge($link,array('origin' => $origin)))
+					->add('source', 'choice', array(
+						'label' => 'The source',
+						'choices' => $machines,
+						'constraints' => array(new Assert\NotBlank()),
+						'empty_value' => 'Choose a machine',
+						))
+					->add('destination', 'choice', array(
+						'label' => 'The destination',
+						'choices' => $machines,
+						'constraints' => array(new Assert\NotBlank()),
+						'empty_value' => 'Choose a machine',
+						))
+					->add('reason', 'text', array(
+						'label' => 'The link reason',
+						'constraints' => array(new Assert\NotBlank()),
+						))
+					->add('nota', 'textarea', array(
+						'label' => 'Nota'
+						))
+					->add('origin', 'hidden', array(
+					));
+
+			// Form was submitted: process it
+			if ('POST' == $app['request']->getMethod()) {
+				$form->bind($app['request']);
+				if ($form->isValid()) {
+					$data=$form->getData();
+					$origin = $data['origin'];
+					unset($data['origin']);
+					$app['db.links']->update($data, array('id' => $id));
+					if($origin == '') {
+						return $app->redirect($app['url_generator']->generate('links.add') . '?feedback=edited');
+					}
+					return $app->redirect($app['url_generator']->generate('machines.detail', array('machineId' => $origin)). '?feedback=edited');
+				}
+			}
+
+			return $app['twig']->render('links.twig', array(
+			'form' => $form->createView(),
+			'feedback' => $app['request']->get('feedback'),
+			'state' => 'Edit',
+			'link' => $link
 		));
 	}
 
