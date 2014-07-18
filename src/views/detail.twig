@@ -1,0 +1,82 @@
+{% extends 'layout.twig' %}
+
+{% set pageTitle = "Sofico - " ~ machine.name %}
+
+{% block pageContent %}
+	<h1>{{ machine.name }}
+		<form action="{{ path('machines.delete', { 'machineId': machine.id }) }}" method="post" class="delete">
+			<a href="{{ path('draw', { 'machineId' : machine.id }) }}" class="btn btn-info btn-large"><i class="glyphicon glyphicon-th-large"></i> View diagram</a>
+			<button type="submit" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i> Delete this machine</button>
+		</form>
+	</h1>
+	{% if feedback in ['added','edited','deleted'] %}
+		<div class="alert alert-success alert-dismissable">
+			<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			{% if feedback == 'added' %}
+				<i class="glyphicon glyphicon-ok"></i> The link was successfully added
+			{% elseif feedback == 'edited' %}
+				<i class="glyphicon glyphicon-ok"></i> The link was successfully edited
+			{% elseif feedback == 'deleted' %}
+				<i class="glyphicon glyphicon-ok"></i> The link was successfully deleted
+			{% endif %}
+		</div>
+	{% endif %}
+	<div class="panel panel-default col-md-5">
+		<div class="panel-body">
+			<h4 class="clearfix">This machine is source for <a href="{{ path('links.add') }}?source={{ machine.id }}&amp;origin={{ machine.id }}" class="btn btn-success btn-large pull-right"><i class="glyphicon glyphicon-plus"></i> Add new link</a></h4>
+			<table class="table table-striped clearfix">
+				<tr>
+					<th>Destiantion</th>
+					<th>Reason</th>
+					<th></th>
+				</tr>
+				{% for link in destinations %}
+					<tr>
+						<td><a href="{{ path('machines.detail', { 'machineId' : link.destination }) }}">{{ link.name }}</a></td>
+						<td>{{ link.reason }}</td>
+						<td class="text-right">
+								<form action="{{ path('links.delete', { 'id': link.id }) }}" method="post" class="delete">
+									<input type="hidden" name="origin" value="{{ machine.id }}"/>
+									<button type="submit" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i> Delete</button>
+								</form>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+	<div class="panel panel-default col-md-5 col-md-offset-1">	
+		<div class="panel-body">
+			<h4 class="clearfix">This machine is destination for <a href="{{ path('links.add') }}?destination={{ machine.id }}" class="btn btn-success btn-large pull-right"><i class="glyphicon glyphicon-plus"></i> Add new link</a></h4>
+			<table class="table table-striped">
+				<tr>
+					<th>Source</th>
+					<th>Reason</th>
+					<th></th>
+				</tr>
+				{% for link in sources %}
+					<tr>
+						<td><a href="{{ path('machines.detail', { 'machineId' : link.source }) }}">{{ link.name }}</a></td>
+						<td>{{ link.reason }}</td>
+						<td class="text-right">
+							<form action="{{ path('links.delete', { 'id': link.id }) }}" method="post" class="delete">
+								<input type="hidden" name="origin" value="{{ machine.id }}"/>
+								<button type="submit" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-trash"></i> Delete</button>
+							</form>
+						</td>
+					</tr>
+				{% endfor %}
+			</table>
+		</div>
+	</div>
+{% endblock %}
+
+{% block js %}
+	<script>
+	jQuery(function($) {
+		$('form.delete').on('submit', function(e) {
+			return confirm('Sure you want to delete this link?');
+		});
+	});
+	</script>
+{% endblock %}

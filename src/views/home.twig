@@ -1,0 +1,43 @@
+{% extends 'layout.twig' %}
+
+{% set pageTitle = "Sofico" %}
+
+{% block pageContent %}
+<h3>Add a new machine or search for one</h3>
+	{% if feedback == 'added' %}
+	<div class="alert alert-success alert-dismissable">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		<i class="glyphicon glyphicon-ok"></i> The machine was successfully added
+	</div>
+	{% elseif feedback == 'edited' %}
+	<div class="alert alert-success alert-dismissable">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		<i class="glyphicon glyphicon-ok"></i> The machine was successfully edited
+	</div>
+	{% elseif feedback == 'used' %}
+	<div class="alert alert-danger alert-dismissable">
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+		<i class="glyphicon glyphicon-remove"></i> The machine name is already used
+	</div>
+	{% endif %}
+	<form action="{{ path('machines.add') }}" method="post">
+			<div class="form-group">
+				<div class="input-group">
+					<input type="text" name="machineName" class="form-control">
+					<span class="input-group-btn">
+						<button class="btn btn-success" type="submit">Add Machine</button>
+					</span>
+				</div>
+			</div>
+		</form>
+		<form action="{{ path('machines.overview') }}" method="get">
+			<div class="form-group">
+				<div class="input-group">
+					<input type="text" name="searched" class="form-control">
+					<span class="input-group-btn">
+						<button class="btn btn-info" type="submit">Search Machines</button>
+					</span>
+				</div>
+			</div>
+		</form>
+{% endblock %}

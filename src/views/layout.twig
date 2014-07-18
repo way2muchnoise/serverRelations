@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<title>{{ pageTitle|raw }}</title>
+
+	<meta charset="UTF-8" />
+	<meta http-equiv="cleartype" content="on" />
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Bootstrap -->
+	<link rel="stylesheet" href="{{ app.request.baseUrl }}/assets/css/bootstrap.min.css">
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- jQuery & Bootstrap -->
+	<script src="{{ app.request.baseUrl }}/assets/js/jquery-2.1.1.min.js"></script>
+	<script src="{{ app.request.baseUrl }}/assets/js/bootstrap.min.js"></script>
+
+	{% block js %}
+	{% endblock %}
+
+</head>
+<body>
+
+	<div class="navbar navbar-default navbar-static-top" role="navigation">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="{{ path('index') }}">Sofico</a>
+			</div>
+
+			<div class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="{{ path('index') }}">Home</a></li>
+					<li><a href="{{ path('machines.overview') }}">Overview</a></li>
+					<li><a href="{{ path('links.add') }}">Add a new link</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					
+				</ul>
+			</div>			
+
+		</div>
+	</div>
+
+	<div class="container">
+		{% block pageContent %}
+			Hello World!
+		{% endblock %}
+	</div>
+
+	<footer>
+		<div class="row">
+			<p class="text-center"> Made by Jens Baetens | Contact me on <a href="mailto:jens.baetens@sofico.be">jens.baetens@sofico.be</a></p>
+		</div>
+	</footer>
+
+</body>
+</html>

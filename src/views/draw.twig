@@ -1,0 +1,20 @@
+{% extends 'layout.twig' %}
+
+{% set pageTitle = "Sofico - Drawing " ~ machine.name %}
+
+{% block js %}
+<script src="{{ app.request.baseUrl }}/assets/js/raphael.min.js"></script>
+{% endblock %}
+
+{% block pageContent %}
+	<a href="{{ path('machines.detail', { 'machineId' : machine.id }) }}" class="btn btn-info btn-large"><i class="glyphicon glyphicon-arrow-left"></i> Back to the machine</a>
+	<div id="notepad" class="text-center">
+	</div>
+
+	<script type="text/javascript">
+	window.onload = function () {
+		var paper = Raphael("notepad", 600, 600);
+		paper.add({{ json|raw }});
+	};
+	</script>
+{% endblock %}

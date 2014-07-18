@@ -1,0 +1,57 @@
+{% extends 'layout.twig' %}
+
+{% set pageTitle = "Sofico - Add a link" %}
+
+{% block pageContent %}
+	<div class="col-xxs-10 col-xxs-offset-1 col-xs-8 col-xs-offset-2 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
+		<h1>Add a new link</h1>
+		{% if feedback in ['added','edited','deleted'] %}
+			<div class="alert alert-success alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+				{% if feedback == 'added' %}
+					<i class="glyphicon glyphicon-ok"></i> The link was successfully added
+				{% elseif feedback == 'edited' %}
+					<i class="glyphicon glyphicon-ok"></i> The link was successfully edited
+				{% elseif feedback == 'deleted' %}
+					<i class="glyphicon glyphicon-ok"></i> The link was successfully deleted
+				{% endif %}
+			</div>
+		{% endif %}
+		<form action="{{ path('links.add') }}" method="post" {{ form_enctype(form) }} novalidate="novalidate">
+			<div class="well clearfix">
+				<div class="form-group">
+					{{ form_label(form.source) }}
+					{{ form_widget(form.source, { 'attr' : { 'class': 'form-control' }} ) }}
+					{% if not form.source.vars.valid %}
+						{% for error in form.source.vars.errors %}
+							<small>{{ error.message|trans|capitalize }}</small>
+						{% endfor %}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					{{ form_label(form.destination) }}
+					{{ form_widget(form.destination, { 'attr' : { 'class': 'form-control' }} ) }}
+					{% if not form.destination.vars.valid %}
+						{% for error in form.destination.vars.errors %}
+							<small>{{ error.message|trans|capitalize }}</small>
+						{% endfor %}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					{{ form_label(form.reason) }}
+					{{ form_widget(form.reason, { 'attr' : { 'class': 'form-control' }} ) }}
+					{% if not form.reason.vars.valid %}
+						{% for error in form.reason.vars.errors %}
+							<small>{{ error.message|trans|capitalize }}</small>
+						{% endfor %}
+					{% endif %}
+				</div>
+				<div class="form-group">
+					{{ form_widget(form.origin, { 'attr' : { 'class': 'form-control' }} ) }}
+				</div>
+				{{ form_widget(form._token) }}
+				<button type="submit" class="btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i> Add new link</button>
+			</div>
+		</form>
+	</div>
+{% endblock %}
