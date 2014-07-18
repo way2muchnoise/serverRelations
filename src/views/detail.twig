@@ -57,7 +57,7 @@
 				{% for link in sources %}
 					<tr>
 						<td><a href="{{ path('machines.detail', { 'machineId' : link.source }) }}">{{ link.name }}</a></td>
-						<td><a href="{{ path('links.detail', { 'id' : link.id }) }}" title="{{ link.nota }}">{{ link.reason }}</a></td>
+						<td><a href="{{ path('links.edit', { 'id' : link.id }) }}" title="{{ link.nota }}">{{ link.reason }}</a></td>
 						<td class="text-right">
 							<form action="{{ path('links.delete', { 'id': link.id }) }}" method="post" class="delete">
 								<input type="hidden" name="origin" value="{{ machine.id }}"/>

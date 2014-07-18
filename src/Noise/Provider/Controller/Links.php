@@ -57,19 +57,19 @@ class Links implements ControllerProviderInterface {
 		$form = $app['form.factory']
 					->createNamed('form', 'form', array('source' => $source, 'destination' => $destination, 'origin' => $origin))
 					->add('source', 'choice', array(
-						'label' => 'The source',
+						'label' => 'Source',
 						'choices' => $machines,
 						'constraints' => array(new Assert\NotBlank()),
 						'empty_value' => 'Choose a machine',
 						))
 					->add('destination', 'choice', array(
-						'label' => 'The destination',
+						'label' => 'Destination',
 						'choices' => $machines,
 						'constraints' => array(new Assert\NotBlank()),
 						'empty_value' => 'Choose a machine',
 						))
 					->add('reason', 'text', array(
-						'label' => 'The link reason',
+						'label' => 'Link reason',
 						'constraints' => array(new Assert\NotBlank()),
 						))
 					->add('nota', 'textarea', array(
@@ -103,6 +103,9 @@ class Links implements ControllerProviderInterface {
 	public function detail(Application $app, $id) {
 
 		$link = $app['db.links']->findById($id);
+		if ($link === false) {
+			return $app->redirect($app['url_generator']->generate('links.add'));
+		}
 		$origin = $app['request']->get('origin');
 
 		$raw = $app['db.machines']->findAll();
@@ -114,19 +117,19 @@ class Links implements ControllerProviderInterface {
 		$form = $app['form.factory']
 					->createNamed('form', 'form', array_merge($link,array('origin' => $origin)))
 					->add('source', 'choice', array(
-						'label' => 'The source',
+						'label' => 'Source',
 						'choices' => $machines,
 						'constraints' => array(new Assert\NotBlank()),
 						'empty_value' => 'Choose a machine',
 						))
 					->add('destination', 'choice', array(
-						'label' => 'The destination',
+						'label' => 'Destination',
 						'choices' => $machines,
 						'constraints' => array(new Assert\NotBlank()),
 						'empty_value' => 'Choose a machine',
 						))
 					->add('reason', 'text', array(
-						'label' => 'The link reason',
+						'label' => 'Link reason',
 						'constraints' => array(new Assert\NotBlank()),
 						))
 					->add('nota', 'textarea', array(

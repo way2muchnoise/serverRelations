@@ -15,7 +15,7 @@ class Draw implements ControllerProviderInterface {
 		// Create new ControllerCollection
 		$controllers = $app['controllers_factory'];
 
-		//Overview of all machines
+		//Route for drawing a machines links
 		$controllers
 			->match('/{machineId}/', array($this, 'draw'))
 			->assert('machineId', '\d+')
@@ -45,7 +45,8 @@ class Draw implements ControllerProviderInterface {
 				'x' => 250,
 				'y' => 250,
 				'text' => $machine['name'],
-				'font-size' => 16
+				'font-size' => 16,
+				'href' => $app['url_generator']->generate('machines.detail', array('machineId' => $machine['id']))
 			);
 
 		$json = array(
@@ -87,7 +88,7 @@ class Draw implements ControllerProviderInterface {
 			$line = array(
 					'type' => 'path',
 					'path' => 'M' . $lineCX . ',' . $lineCY .'L' . $lineX .',' . $lineY,
-					'stroke' => 'gray'
+					'stroke' => 'gray',
 				);
 			$json[] = $line;
 			$arrowHead = array(
@@ -105,7 +106,7 @@ class Draw implements ControllerProviderInterface {
 					'x' => $reasonX,
 					'y' => $reasonY,
 					'text' => $link['reason'],
-					'font-size' => 16
+					'font-size' => 16,
 				);
 			$json[] = $reason;
 			$g++;
@@ -138,7 +139,7 @@ class Draw implements ControllerProviderInterface {
 			$line = array(
 					'type' => 'path',
 					'path' => 'M' . $lineCX . ',' . $lineCY .'L' . $lineX .',' . $lineY,
-					'stroke' => 'gray'
+					'stroke' => 'gray',
 				);
 			$json[] = $line;
 			$arrowHead = array(
@@ -156,7 +157,7 @@ class Draw implements ControllerProviderInterface {
 					'x' => $reasonX,
 					'y' => $reasonY,
 					'text' => $link['reason'],
-					'font-size' => 16
+					'font-size' => 16,
 				);
 			$json[] = $reason;
 			$g++;
