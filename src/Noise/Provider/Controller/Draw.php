@@ -68,7 +68,7 @@ class Draw implements ControllerProviderInterface {
 					'type' => 'circle',
 					'cx' => $x,
 					'cy' => $y,
-					'r' => 30
+					'r' => 30,
 				);
 			$json[] = $machineDraw;
 			$machineName = array(
@@ -76,6 +76,8 @@ class Draw implements ControllerProviderInterface {
 					'x' => $x,
 					'y' => $y,
 					'text' => $link['name'],
+					'font-size' => 12,
+					'href' => $app['url_generator']->generate('machines.detail', array('machineId' => $machine['id']))
 				);
 			$json[] = $machineName;
 			$lineCX = 250 + 50 * cos($rad);
@@ -117,7 +119,7 @@ class Draw implements ControllerProviderInterface {
 					'type' => 'circle',
 					'cx' => $x,
 					'cy' => $y,
-					'r' => 30
+					'r' => 30,
 				);
 			$json[] = $machineDraw;
 			$machineName = array(
@@ -125,6 +127,8 @@ class Draw implements ControllerProviderInterface {
 					'x' => $x,
 					'y' => $y,
 					'text' => $link['name'],
+					'font-size' => 12,
+					'href' => $app['url_generator']->generate('machines.detail', array('machineId' => $machine['id']))
 				);
 			$json[] = $machineName;
 			$lineCX = 250 + 50 * cos($rad);
